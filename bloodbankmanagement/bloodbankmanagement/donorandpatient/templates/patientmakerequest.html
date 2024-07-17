@@ -1,0 +1,182 @@
+
+{% load static %}
+{% load widget_tweaks %}
+
+<html lang="en">
+<head>
+    <!-- Font for the page -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <!-- Main CSS -->
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" media="all">
+    <style>
+        .page-wrapper {
+            background: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .wrapper {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-5 {
+            padding: 20px;
+        }
+        .card-heading {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .card-heading .title {
+            font-size: 1.75em;
+            font-weight: 500;
+            color: #333;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .form-row {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-row .name {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .input-group {
+            width: 100%;
+        }
+        .input--style-5 {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fafafa;
+            font-size: 1em;
+            color: #555;
+            transition: border-color 0.3s;
+        }
+        .input--style-5:focus {
+            border-color: #007bff;
+        }
+        .btn--radius-2 {
+            border-radius: 5px;
+        }
+        .btn-danger {
+            background: #e82525;
+            border: none;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        .btn-danger:hover {
+            background: #0056b3;
+        }
+        .rs-select2 .select--no-search {
+            width: 100%;
+        }
+        .select-dropdown {
+            width: 100%;
+        }
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .alert.success {background-color: #4CAF50;}
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="wrapper card-5">
+            <div class="card-heading">
+                <h2 class="title">MAKE BLOOD REQUEST</h2>
+            </div>
+            <div class="card-body">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        <div class="name">Patient Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input type="text" name="patientname" class="input--style-5" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Patient Age</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input type="number" name="patientage" class="input--style-5" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Reason</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <textarea name="reason" rows="4" class="input--style-5" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Blood Group</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select name="bloodgroup" class="input--style-5" required>
+                                        <option disabled="disabled" selected="selected">Choose option</option>
+                                        <option>O+</option>
+                                        <option>O-</option>
+                                        <option>A+</option>
+                                        <option>A-</option>
+                                        <option>B+</option>
+                                        <option>B-</option>
+                                        <option>AB+</option>
+                                        <option>AB-</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Unit (in ml)</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input type="number" name="unit" class="input--style-5" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="btn btn--radius-2 btn-danger" type="submit">REQUEST</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

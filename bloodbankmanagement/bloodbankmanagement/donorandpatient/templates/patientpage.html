@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Patient Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .content {
+            padding: 20px;
+            width: 100%;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'patienthomePagefn' %}">
+                    <h2 class="text-primary mb-0"><i class="fa fa-heartbeat"></i></h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img class="rounded-circle me-lg-2" src="{% static 'images/user.jpg' %}" alt="Profile Image" style="width: 40px; height: 40px;">
+                                <span class="d-none d-lg-inline-flex">{{ user.username }}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a href="#" class="dropdown-item">My Profile</a></li>
+                                <li><a href="#" class="dropdown-item">Settings</a></li>
+                                <li><a href="{% url 'patientLogout' %}" class="dropdown-item">Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+        <div class="container mt-4">
+            <h1>Welcome, {{ d.patientname }}!</h1>
+            <p>This is your dashboard where you can manage your requests and view your history.</p>
+
+            <div class="row">
+                <!-- Quick Links -->
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Links</h5>
+                            <p class="card-text">Access frequently used features quickly.</p>
+                            <a href="{% url 'patientrequest' %}" class="btn btn-primary">Make Request</a>
+                            <a href="{% url 'patienthistory' %}" class="btn btn-secondary">Request History</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Overview -->
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Dashboard Overview</h5>
+                            <p class="card-text">Summary of your recent activities and requests.</p>
+                            <!-- Include any relevant dashboard content here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Announcements</h5>
+                    <p class="card-text">Important messages from your healthcare provider.</p>
+                    <!-- Include any relevant announcements here -->
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Information</h5>
+                    <p class="card-text">If you need support, please contact us at <strong>support@example.com</strong> or call <strong>(123) 456-7890</strong>.</p>
+                </div>
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.querySelector('.navbar-toggler').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('d-none');
+        });
+    </script>
+</body>
+
+</html>

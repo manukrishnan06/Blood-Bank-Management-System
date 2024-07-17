@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .card-title {
+            color: #dc3545; /* Red color for card title */
+        }
+
+        .table-responsive {
+            max-height: 400px; /* Limit table height for scroll */
+            overflow-y: auto; /* Enable vertical scroll if needed */
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle; /* Center content vertically */
+        }
+
+        .table th {
+            background-color: #007bff; /* Blue header background */
+            color: #fff; /* White text */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 123, 255, 0.1); /* Light blue stripe */
+        }
+
+        .btn-primary,
+        .btn-danger {
+            font-size: 0.8rem; /* Smaller button text */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Blue for edit button */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Red for delete button */
+        }
+
+        .modal-body {
+            font-size: 0.9rem; /* Smaller modal text */
+        }
+    </style>
+</head>
+<body>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">PATIENT DETAILS</h4>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Photo</th>
+                            <th>Blood Group</th>
+                            <th>Age</th>
+                            <th>Disease</th>
+                            <th>Contact</th>
+                            <th colspan="2">Actions</th> <!-- colspan="2" for two action buttons -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data %}
+                        <tr>
+                            <td>{{ d.username }}</td>
+                            <td>
+                                <img src="{{ d.photo.url }}" width="100px" height="100px" alt="Patient Photo">
+                            </td>
+                            <td>{{ d.bloodgroup }}</td>
+                            <td>{{ d.age }}</td>
+                            <td>{{ d.disease }}</td>
+                            <td>{{ d.contact }}</td>
+                            <td>
+                                <a href="{% url 'editpatientfn' pid=d.id %}" class="btn btn-primary btn-sm">Edit</a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ d.id }}">Delete</button>
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="deleteModal{{ d.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ d.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ d.id }}">Confirm Delete</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete {{ d.username }}'s record?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <a href="{% url 'deletepatientfn' pid=d.id %}" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Delete Modal -->
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

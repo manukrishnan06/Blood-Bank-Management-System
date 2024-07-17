@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Donate Blood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS for Blood Donation Form */
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+            font-family: 'Heebo', sans-serif; /* Google Font for consistency */
+        }
+        .bg-light {
+            background-color: #ffffff; /* White background for form container */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+        .form-floating {
+            margin-bottom: 1.5rem; /* Spacing between form inputs */
+        }
+        .btn-danger {
+            background-color: #dc3545; /* Red button for approval */
+            border-color: #dc3545; /* Matching border color */
+        }
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red on hover */
+            border-color: #bd2130; /* Matching border color */
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded p-4">
+                <h6 class="mb-4">DONATE BLOOD</h6>
+                <form method="post" action="{% url 'savedapproverequest' sid=data.id %}">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingText" placeholder="Donor Name" name="dname" value="{{data.donorname}}">
+                        <label for="floatingText">Donor Name</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="number" class="form-control" id="floatingAge" placeholder="Donor Age" name="dage" value="{{data.donorage}}">
+                        <label for="floatingAge">Donor Age</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingDisease" placeholder="Disease (If any)" name="ddis" value="{{data.disease}}">
+                        <label for="floatingDisease">Disease (If any)</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="floatingSelect" aria-label="Blood Group" name="dblood">
+                            <option selected>Blood Group</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                        </select>
+                        <label for="floatingSelect">Blood Group</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="number" class="form-control" id="floatingUnit" placeholder="Unit in ml" name="dunit" value="{{data.unit}}">
+                        <label for="floatingUnit">Unit in ml</label>
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-danger m-2">Approve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
+{% endblock %}
