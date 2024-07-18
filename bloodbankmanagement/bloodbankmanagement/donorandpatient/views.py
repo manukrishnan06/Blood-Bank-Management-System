@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
-from donorandpatient.models import userregisterdb, donorregisterdb, makerequestdb, donateblooddb
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect ,get_object_or_404
+from donorandpatient.models import donorregisterdb, userregisterdb, makerequestdb, donateblooddb
 
 def homepagefn(request):
     return render(request, "homepage.html")
@@ -101,6 +102,8 @@ def saverequest(request):
         obj.save()
         return redirect('patienthomePagefn')
 
+
+
 def donateBloodfn(request):
     return render(request, "donateblood.html")
 
@@ -119,7 +122,74 @@ def donationhistoryfn(request):
     data = donateblooddb.objects.filter(donorname=request.session.get('username', ''))
     return render(request, "donationhistory.html", {'data': data})
 
+from django.shortcuts import render, get_object_or_404
+from .models import donorregisterdb
+
+def donormyprofile(request):
+    username = request.session.get('username', '')
+
+    try:
+        donor = donorregisterdb.objects.filter(username=username).first()
+        if not donor:
+            raise donorregisterdb.DoesNotExist("Donor does not exist")
+    except donorregisterdb.DoesNotExist as e:
+        # Handle the case where no donor with the given username is found
+        print(f"Error: {e}")
+        return render(request, 'error_page.html')  # Render an error page or handle gracefully
+
+    context = {
+        'd': donor
+    }
+    return render(request, 'donormyprofile.html', context)
+
+
+
+def donoreditprofile(request):
+    username = request.user.username  # Assuming the username is the same as the logged-in user
+
+    donor = get_object_or_404(donorregisterdb, username=username)
+
+    if request.method == 'POST':
+        # Retrieve form data
+        bloodgroup = request.POST.get('bloodgroup')
+        contact = request.POST.get('contact')
+        address = request.POST.get('address')
+        photo = request.FILES.get('photo')
+
+        # Validation
+        if not bloodgroup or not contact or not address:
+            return render(request, 'edit_profile.html', {
+                'd': donor,
+                'error': 'All fields except photo are required.'
+            })
+
+        # Update donor object
+        donor.bloodgroup = bloodgroup
+        donor.contact = contact
+        donor.address = address
+        if photo:
+            donor.photo = photo
+
+        # Save donor object
+        donor.save()
+
+        # Redirect to profile page after successful update
+        return redirect('donormyprofile')
+
+    # If request method is not POST, render the edit profile form
+    context = {
+        'd': donor,
+    }
+    return render(request, 'donoreditprofile.html', context)
+
+
 def patientLogout(request):
     if 'username' in request.session:
         del request.session['username']
     return redirect('patientloginfn')
+
+
+def donorLogout(request):
+    if 'username' in request.session:
+        del request.session['username']
+    return redirect('donorloginfn')

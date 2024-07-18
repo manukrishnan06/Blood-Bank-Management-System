@@ -13,6 +13,8 @@ urlpatterns = [
     path('patientrequest/', views.patientrequest, name="patientrequest"),
     path('patientloginfnn/', views.patientloginfnn, name="patientloginfnn"),
     path('saverequest/', views.saverequest, name="saverequest"),
+    path('donormyprofile/', views.donormyprofile, name='donormyprofile'),
+    path('donoreditprofile/', views.donoreditprofile, name='donoreditprofile'),
     path('patienthistory/', views.patienthistory, name="patienthistory"),
     path('donorhomePagefn/', views.donorhomePagefn, name="donorhomePagefn"),
     path('donorloginfnn/', views.donorloginfnn, name="donorloginfnn"),
@@ -20,4 +22,5 @@ urlpatterns = [
     path('savedonatebloodfn/', views.savedonatebloodfn, name="savedonatebloodfn"),
     path('donationhistoryfn/', views.donationhistoryfn, name="donationhistoryfn"),
     path('patientLogout/', views.patientLogout, name='patientLogout'),
+    path('donorLogout/', views.donorLogout, name='donorLogout'),
 ]

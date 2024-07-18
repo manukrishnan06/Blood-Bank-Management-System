@@ -23,15 +23,17 @@ class userregisterdb(models.Model):
 
 
 class donorregisterdb(models.Model):
-
-    username = models.EmailField(max_length=100, null=True, blank=True)
+    username = models.CharField(max_length=100, null=True, blank=True)
     password = models.CharField(max_length=100, null=True, blank=True)
     confirmpassword = models.CharField(max_length=100, null=True, blank=True)
-    age = models.IntegerField(null=True,blank=True)
-    bloodgroup = models.CharField(max_length=100,null=True,blank=True)
-    address= models.CharField(max_length=100, null=True,blank=True)
-    contact = models.IntegerField(null=True,blank=True)
-    photo= models.ImageField(upload_to="picsss",null=True,blank=True)
+    age = models.IntegerField(null=True, blank=True)
+    bloodgroup = models.CharField(max_length=100, null=True, blank=True)
+    address = models.CharField(max_length=100, null=True, blank=True)
+    contact = models.IntegerField(null=True, blank=True)
+    photo = models.ImageField(upload_to="picsss", null=True, blank=True)
+
+    def __str__(self):
+        return self.username
 
 
 class makerequestdb(models.Model):
